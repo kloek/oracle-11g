@@ -38,7 +38,9 @@ users () {
 sysctl_and_limits () {
 	cp /assets/sysctl.conf /etc/sysctl.conf
 	cat /assets/limits.conf >> /etc/security/limits.conf
-	cp /assets/init.ora $ORACLE_HOME/admin/$ORACLE_SID/pfile
+
+	mkdir -p "$ORACLE_HOME/admin/$ORACLE_SID/pfile/"
+	cp /assets/init.ora $ORACLE_HOME/admin/$ORACLE_SID/pfile/init.ora
 }
 
 deps
