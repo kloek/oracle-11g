@@ -21,7 +21,7 @@ Database located in **/opt/oracle** folder
 
 OS users:
 * root/install
-* oracle/install
+* oracle/install 
 
 DB users:
 * SYS/oracle
