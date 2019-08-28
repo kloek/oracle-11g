@@ -1,5 +1,8 @@
 Image for running Oracle Database 11g Standard/Enterprise. Due to oracle license restrictions image is not contain database itself and will install it on first run from external directory.
 
+This fork has been adapted for a special usecase.
+see jaspeens version for original
+
 ``This image for development use only``
 
 # Usage
@@ -25,7 +28,7 @@ DB users:
 
 Optionally you can map dpdump folder to easy upload dumps:
 ```sh
-docker run --privileged --name oracle11g -p 1521:1521 -v <install_folder>:/install -v <local_dpdump>:/opt/oracle/dpdump jaspeen/oracle-11g
+docker run --privileged --name oracle11g -p 1521:1521 -v <install_folder>:/install -v <local_dpdump>:/opt/oracle/dpdump jaspeen/oracle-11g   # TODO
 ```
 To execute impdp/expdp just use docker exec command:
 ```sh

@@ -30,13 +30,15 @@ users () {
 	cat /assets/profile >> ~oracle/.bash_profile
 	cat /assets/profile >> ~oracle/.bashrc
 
+	source ~oracle/.bash_profile
+	source ~oracle/.bashrc
+
 }
 
 sysctl_and_limits () {
-
 	cp /assets/sysctl.conf /etc/sysctl.conf
 	cat /assets/limits.conf >> /etc/security/limits.conf
-
+	cp /assets/init.ora $ORACLE_HOME/admin/$ORACLE_SID/pfile
 }
 
 deps
