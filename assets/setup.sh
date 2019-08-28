@@ -6,8 +6,7 @@ trap "echo_red '******* Caught SIGINT signal. Stopping...'; exit 2" SIGINT
 
 #Install prerequisites directly without virtual package
 deps () {
-
-	echo "Installing dependencies"
+	echo " - Installing dependencies"
 	yum -y install binutils compat-libstdc++-33 compat-libstdc++-33.i686 ksh elfutils-libelf elfutils-libelf-devel glibc glibc-common glibc-devel gcc gcc-c++ libaio libaio.i686 libaio-devel libaio-devel.i686 libgcc libstdc++ libstdc++.i686 libstdc++-devel libstdc++-devel.i686 make sysstat unixODBC unixODBC-devel
 	yum clean all
 	rm -rf /var/lib/{cache,log} /var/log/lastlog
@@ -15,8 +14,7 @@ deps () {
 }
 
 users () {
-
-	echo "Configuring users"
+	echo " - Configuring users"
 	groupadd -g 200 oinstall
 	groupadd -g 201 dba
 	useradd -u 440 -g oinstall -G dba -d /opt/oracle oracle
@@ -36,6 +34,7 @@ users () {
 }
 
 sysctl_and_limits () {
+  echo " - sysctl_and_limits"
 	cp /assets/sysctl.conf /etc/sysctl.conf
 	cat /assets/limits.conf >> /etc/security/limits.conf
 

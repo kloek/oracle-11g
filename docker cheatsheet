@@ -6,7 +6,7 @@ list all existing containers:
 	sudo docker ps --all
 
 remove a container
-	sudo docker container rm "CONTAINER ID"
+	sudo docker rm oracle11g_HERE
 
 remove image:
 	sudo docker rmi kloek/oracle-11g
@@ -15,7 +15,7 @@ remove image:
 
 Download oracle 11g install files:
 
-1. goto: https://www.oracle.com/database/technologies/oracle-database-software-downloads.html
+1. goto: https://www.oracle.com/database/technologies/112010-linx8664soft.html
 
 2. register or sign in if needed
 
@@ -34,25 +34,33 @@ notes: docker seems to require swap.
 
 1. pull:
 	sudo docker pull kloek/oracle-11g
+	
+	
+	sudo docker run -d --privileged --name oracle11g_jasp -p 1523:1521 -v /install:/install -v /media/Data/HERE_data/Europe_West_RDF:/opt/oracle/dpdump jaspeen/oracle-11g
 
-2. run:
+2. run from dockerhub:
 	Figgure this out...
 	(NOT THIS) sudo docker run --privileged --name oracle11g_HERE -p 1521:1521 -v /install:/install kloek/oracle-11g
 	or
 	sudo docker run -d --privileged --name oracle11g_HERE -p 1521:1521 -v /install:/install -v /media/Data/HERE_data/Europe_West_RDF:/opt/oracle/dpdump kloek/oracle-11g
 	
-	Local version with local dump (TODO this wasnt working, figgure out why?)
+	
+Local build with output
 	cd /home/kloek/Documents/MIS/Autonoma/WorldMaker/tools/oracle-11g_docker
-	sudo docker build -t oracle11g .
-	sudo docker run -d --privileged --name oracle11g_HERE -p 1521:1521 -v /install:/install -v /media/Data/HERE_data/Europe_West_RDF:/opt/oracle/dpdump oracle11g
+	sudo docker build -t oracle11g:local_build .
+	sudo docker run -a STDOUT -a STDERR --privileged --name oracle11g_HERE -p 1521:1521 -v /install:/install -v /media/Data/HERE_data/Europe_West_RDF:/opt/oracle/dpdump oracle11g:local_build
 
 3. enter docker container:
 	sudo docker exec -it oracle11g_HERE /bin/bash
 
+
+4. if trouble, log:
+	1. start "sudo docker events &"
+	2. do your "docker run" in same terminal !
+	3. docker logs <copy the instance id from docker events messages on screen>
+
 Oracle 11g commands:
 	https://docs.oracle.com/cd/B19188_01/doc/B15917/sqcmd.htm
-
-
 
 
 install SQL Developer:
