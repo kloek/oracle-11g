@@ -1,0 +1,78 @@
+https://medium.com/@deepakshakya/beginners-guide-to-use-docker-build-run-push-and-pull-4a132c094d75
+
+If redoing the install:
+
+list all existing containers:
+	sudo docker ps --all
+
+remove a container
+	sudo docker container rm "CONTAINER ID"
+
+remove image:
+	sudo docker rmi kloek/oracle-11g
+
+
+
+Download oracle 11g install files:
+
+1. goto: https://www.oracle.com/database/technologies/oracle-database-software-downloads.html
+
+2. register or sign in if needed
+
+3. download version 11g R2 for linux x86_64 ( 2 zip files)
+
+4. unpack both, Here unpacking has a wiered side effect, 
+   they should create one folder called "database" but instead creates two, 
+   so copy the content of the second to the first, "merge" 
+
+5. copy path/to/database to /install/database
+
+
+installing oracle 11g docker
+notes: docker seems to require swap.
+		this db will be huge ( read 350 gb somewhere)
+
+1. pull:
+	sudo docker pull kloek/oracle-11g
+
+2. run:
+	Figgure this out...
+	(NOT THIS) sudo docker run --privileged --name oracle11g_HERE -p 1521:1521 -v /install:/install kloek/oracle-11g
+	or
+	sudo docker run -d --privileged --name oracle11g_HERE -p 1521:1521 -v /install:/install -v /media/Data/HERE_data/Europe_West_RDF:/opt/oracle/dpdump kloek/oracle-11g
+	
+	Local version with local dump (TODO this wasnt working, figgure out why?)
+	cd /home/kloek/Documents/MIS/Autonoma/WorldMaker/tools/oracle-11g_docker
+	sudo docker build -t oracle11g .
+	sudo docker run -d --privileged --name oracle11g_HERE -p 1521:1521 -v /install:/install -v /media/Data/HERE_data/Europe_West_RDF:/opt/oracle/dpdump oracle11g
+
+3. enter docker container:
+	sudo docker exec -it oracle11g_HERE /bin/bash
+
+Oracle 11g commands:
+	https://docs.oracle.com/cd/B19188_01/doc/B15917/sqcmd.htm
+
+
+
+
+install SQL Developer:
+	https://www.oracle.com/technetwork/developer-tools/sql-developer/downloads/sqldev-install-linux-1969676.html
+	but use "sudo alien -i sqldeveloper-(build number)-1.noarch.rpm" instead
+
+Start sql developer from teminal with :
+	sqldeveloper
+
+new connection:
+	name: HERE_DB
+	Username: SYS
+	Role: SYSDBA
+	Password: oracle
+
+	Hostname: 127.17.0.1   (see ifconfig / docker1 if same on your pc)
+	Port: 1521
+	SID: orcl
+
+
+Goal:
+port forward this so that not all users need their own install.
+
